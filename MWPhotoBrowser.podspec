@@ -43,7 +43,6 @@ Pod::Spec.new do |s|
   s.dependency 'YTVimeoExtractor'
   s.dependency 'XCDYouTubeKit', "~> 2.5"
 
-  s.dependency 'DACircularProgress', '~> 2.3'
 
   # SDWebImage
   # 3.7.2 contains bugs downloading local files
