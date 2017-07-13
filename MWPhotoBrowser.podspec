@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-  s.name = 'MWPhotoBrowser'
+  s.name = 'MWPhotoBrowserWithYouTubeAndVimeo'
   s.version = '2.1.2'
   s.license = 'MIT'
   s.summary = 'A simple iOS photo and video browser with optional grid view, captions and selections.'
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/mwaterfall'
 
   s.source = {
-    :git => 'https://github.com/mwaterfall/MWPhotoBrowser.git',
+    :git => 'https://github.com/bjakus/MWPhotoBrowser.git',
     :tag => '2.1.2'
   }
   s.platform = :ios, '7.0'
@@ -38,6 +38,11 @@ Pod::Spec.new do |s|
   s.weak_frameworks = 'Photos'
 
   s.dependency 'MBProgressHUD', '~> 0.9'
+  s.dependency 'DACircularProgress', '~> 2.3'
+
+  s.dependency 'YTVimeoExtractor'
+  s.dependency 'XCDYouTubeKit', "~> 2.5"
+
   s.dependency 'DACircularProgress', '~> 2.3'
 
   # SDWebImage
