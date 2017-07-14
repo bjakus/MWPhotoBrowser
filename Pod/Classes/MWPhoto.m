@@ -99,6 +99,17 @@
     return self;
 }
 
+- (id)initWithVideoURL:(NSURL *)url typeOfVideo:(NSString *)type {
+    if ((self = [super init])) {
+        self.videoURL = url;
+        self.isVideo = YES;
+        self.type = type;
+        self.emptyImage = YES;
+        [self setup];
+    }
+    return self;
+}
+
 - (void)setup {
     _assetRequestID = PHInvalidImageRequestID;
     _assetVideoRequestID = PHInvalidImageRequestID;
