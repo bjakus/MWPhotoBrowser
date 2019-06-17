@@ -68,6 +68,7 @@
 		40D33FAB22B7F25100C656FC /* broken_file@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 40D33FA622B7F25100C656FC /* broken_file@3x.png */; };
 		40D33FAC22B7F25100C656FC /* placeholder_video_empty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 40D33FA722B7F25100C656FC /* placeholder_video_empty@3x.png */; };
 		40D33FB422B7F48000C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40D33FB322B7F48000C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle */; };
+		40D33FB622B7F55100C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40D33FB522B7F55100C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle */; };
 		40F505E69B8595361C2A7528DDA222B6 /* EXPUnsupportedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B23D9E49B5B3A5C76EAFFC9C7F40B4B9 /* EXPUnsupportedObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4231743B6C143BDB4A5FBB032E6D3799 /* EXPUnsupportedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 865FAF448207E691D600F40C4ACF7C58 /* EXPUnsupportedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		430CE433DB59FE090A8CC6AFCFA43337 /* EXPMatchers+equal.h in Headers */ = {isa = PBXBuildFile; fileRef = D10BA2216A9B5F41557B4FC448EE865C /* EXPMatchers+equal.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -435,6 +436,7 @@
 		40D33FA622B7F25100C656FC /* broken_file@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broken_file@3x.png"; sourceTree = "<group>"; };
 		40D33FA722B7F25100C656FC /* placeholder_video_empty@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder_video_empty@3x.png"; sourceTree = "<group>"; };
 		40D33FB322B7F48000C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MWPhotoBrowserWithYouTubeAndVimeo.bundle; sourceTree = "<group>"; };
+		40D33FB522B7F55100C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MWPhotoBrowserWithYouTubeAndVimeo.bundle; sourceTree = "<group>"; };
 		40D39B6435EEF47A85F4E3FB684E72FE /* DACircularProgressView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DACircularProgressView.m; path = DACircularProgress/DACircularProgressView.m; sourceTree = "<group>"; };
 		40DAD22BCDD38D058B1C9A312C42DF49 /* EXPMatchers+beNil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "EXPMatchers+beNil.m"; path = "Expecta/Matchers/EXPMatchers+beNil.m"; sourceTree = "<group>"; };
 		427921605A450AEF67D129DACCD87BED /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
@@ -881,6 +883,7 @@
 		4F696B27FDAEF5BE2C52EFF1848239D6 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				40D33FB522B7F55100C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle */,
 				40D33FA322B7F25000C656FC /* broken_file.png */,
 				40D33FA522B7F25100C656FC /* broken_file@2x.png */,
 				40D33FA622B7F25100C656FC /* broken_file@3x.png */,
@@ -1663,6 +1666,7 @@
 				4DCDDE359E1F3BB419E0F7E9DD12CBB6 /* ImageSelectedOff.png in Resources */,
 				BE6668D2527C0063CE1C755190A7596F /* ImageSelectedOff@2x.png in Resources */,
 				7D901800D8324F9F338B54CA286AD771 /* ImageSelectedOff@3x.png in Resources */,
+				40D33FB622B7F55100C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle in Resources */,
 				40D33FA822B7F25100C656FC /* broken_file.png in Resources */,
 				F26631BB63543446C157972F2F6D1475 /* ImageSelectedOn.png in Resources */,
 				FBADF2C12D471003AEB710314DA3FF49 /* ImageSelectedOn@2x.png in Resources */,
