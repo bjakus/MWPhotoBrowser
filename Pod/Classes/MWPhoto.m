@@ -12,6 +12,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "MWPhoto.h"
 #import "MWPhotoBrowser.h"
+#import "VideoImagesCache.h"
+#import "VideoExtractor.h"
 
 @interface MWPhoto () {
 
@@ -99,11 +101,12 @@
     return self;
 }
 
-- (id)initWithVideoURL:(NSURL *)url typeOfVideo:(NSString *)type {
+- (id)initWithVideoURL:(NSURL *)url typeOfVideo:(NSString *)type screenshot:(NSString*)screen {
     if ((self = [super init])) {
         self.videoURL = url;
         self.isVideo = YES;
         self.type = type;
+        self.screenshot = screen;
         self.emptyImage = YES;
         [self setup];
     }
@@ -127,26 +130,30 @@
 }
 
 - (void)getVideoURL:(void (^)(NSURL *url))completion {
-    if (_videoURL) {
-        completion(_videoURL);
-    } else if (_asset && _asset.mediaType == PHAssetMediaTypeVideo) {
-        [self cancelVideoRequest]; // Cancel any existing
-        PHVideoRequestOptions *options = [PHVideoRequestOptions new];
-        options.networkAccessAllowed = YES;
-        typeof(self) __weak weakSelf = self;
-        _assetVideoRequestID = [[PHImageManager defaultManager] requestAVAssetForVideo:_asset options:options resultHandler:^(AVAsset *asset, AVAudioMix *audioMix, NSDictionary *info) {
-            
-            // dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{ // Testing
-            typeof(self) strongSelf = weakSelf;
-            if (!strongSelf) return;
-            strongSelf->_assetVideoRequestID = PHInvalidImageRequestID;
-            if ([asset isKindOfClass:[AVURLAsset class]]) {
-                completion(((AVURLAsset *)asset).URL);
-            } else {
-                completion(nil);
-            }
-            
-        }];
+    
+    @try {
+        if (_videoURL) {
+            completion(_videoURL);
+        } else if (_asset && _asset.mediaType == PHAssetMediaTypeVideo) {
+            [self cancelVideoRequest]; // Cancel any existing
+            PHVideoRequestOptions *options = [PHVideoRequestOptions new];
+            options.networkAccessAllowed = YES;
+            typeof(self) __weak weakSelf = self;
+            _assetVideoRequestID = [[PHImageManager defaultManager] requestAVAssetForVideo:_asset options:options resultHandler:^(AVAsset *asset, AVAudioMix *audioMix, NSDictionary *info) {
+                
+                // dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{ // Testing
+                typeof(self) strongSelf = weakSelf;
+                if (!strongSelf) return;
+                strongSelf->_assetVideoRequestID = PHInvalidImageRequestID;
+                if ([asset isKindOfClass:[AVURLAsset class]]) {
+                    completion(((AVURLAsset *)asset).URL);
+                } else {
+                    completion(nil);
+                }
+                
+            }];
+        }
+    } @catch (NSException *exception) {
     }
 }
 
@@ -154,6 +161,14 @@
 
 - (UIImage *)underlyingImage {
     return _underlyingImage;
+}
+
+- (NSString *)underlyingType {
+    return _type;
+}
+
+-(NSString *)underlyingVideoURL {
+    return _videoURL.absoluteString;
 }
 
 - (void)loadUnderlyingImageAndNotify {
@@ -178,44 +193,69 @@
 
 // Set the underlyingImage
 - (void)performLoadUnderlyingImageAndNotify {
-    
-    // Get underlying image
-    if (_image) {
-        
-        // We have UIImage!
-        self.underlyingImage = _image;
-        [self imageLoadingComplete];
-        
-    } else if (_photoURL) {
-        
-        // Check what type of url it is
-        if ([[[_photoURL scheme] lowercaseString] isEqualToString:@"assets-library"]) {
+    @try {
+        if (_screenshot != nil) {
+            [self _performLoadUnderlyingImageAndNotifyWithWebURL: [NSURL URLWithString:_screenshot]];
+        }
+        else if (_type != nil) {
             
-            // Load from assets library
-            [self _performLoadUnderlyingImageAndNotifyWithAssetsLibraryURL: _photoURL];
+            VideoExtractor *extractor = [[VideoExtractor alloc] init];
+            if ([[[VideoImagesCache instance] imageURLs] valueForKey:_videoURL.absoluteString] != nil) {
+                NSString *imageURLString = [[[VideoImagesCache instance] imageURLs] valueForKey:_videoURL.absoluteString];
+                
+                [self _performLoadUnderlyingImageAndNotifyWithWebURL: [NSURL URLWithString:imageURLString]];
+
+            } else {
+                [extractor processVideoUrl:_videoURL.absoluteString fileType:_type closure:^(bool sucess) {
+                    
+                    NSString *imageURLString = [[[VideoImagesCache instance] imageURLs] valueForKey:_videoURL.absoluteString];
+
+                    [self _performLoadUnderlyingImageAndNotifyWithWebURL: [NSURL URLWithString:imageURLString]];
+                    
+                }];
+            }
+
+        }
+        // Get underlying image
+        else if (_image) {
             
-        } else if ([_photoURL isFileReferenceURL]) {
+            // We have UIImage!
+            self.underlyingImage = _image;
+            [self imageLoadingComplete];
             
-            // Load from local file async
-            [self _performLoadUnderlyingImageAndNotifyWithLocalFileURL: _photoURL];
+        } else if (_photoURL) {
+            
+            // Check what type of url it is
+            if ([[[_photoURL scheme] lowercaseString] isEqualToString:@"assets-library"]) {
+                
+                // Load from assets library
+                [self _performLoadUnderlyingImageAndNotifyWithAssetsLibraryURL: _photoURL];
+                
+            } else if ([_photoURL isFileReferenceURL]) {
+                
+                // Load from local file async
+                [self _performLoadUnderlyingImageAndNotifyWithLocalFileURL: _photoURL];
+                
+            } else {
+                
+                // Load async from web (using SDWebImage)
+                [self _performLoadUnderlyingImageAndNotifyWithWebURL: _photoURL];
+                
+            }
+            
+        } else if (_asset) {
+            
+            // Load from photos asset
+            [self _performLoadUnderlyingImageAndNotifyWithAsset: _asset targetSize:_assetTargetSize];
             
         } else {
             
-            // Load async from web (using SDWebImage)
-            [self _performLoadUnderlyingImageAndNotifyWithWebURL: _photoURL];
+            // Image is empty
+            [self imageLoadingComplete];
             
         }
-        
-    } else if (_asset) {
-        
-        // Load from photos asset
-        [self _performLoadUnderlyingImageAndNotifyWithAsset: _asset targetSize:_assetTargetSize];
-        
-    } else {
-        
-        // Image is empty
+    } @catch (NSException *e) {
         [self imageLoadingComplete];
-        
     }
 }
 
@@ -223,6 +263,9 @@
 - (void)_performLoadUnderlyingImageAndNotifyWithWebURL:(NSURL *)url {
     @try {
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        if (url == nil) {
+            //self.underlyingImage = [UIImage imageNamed:@"placeholder_video_empty"];
+        } else {
         _webImageOperation = [manager downloadImageWithURL:url
                                                    options:0
                                                   progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -244,6 +287,7 @@
                                                          [self imageLoadingComplete];
                                                      });
                                                  }];
+        }
     } @catch (NSException *e) {
         MWLog(@"Photo from web: %@", e);
         _webImageOperation = nil;

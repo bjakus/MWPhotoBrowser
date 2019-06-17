@@ -68,7 +68,7 @@
             return;
         }
         
-        NSString *thumbnail = [NSString stringWithFormat:@"http://img.youtube.com/vi/%@/maxresdefault.jpg", youtubeID];
+        NSString *thumbnail = [NSString stringWithFormat:@"http://img.youtube.com/vi/%@/hqdefault.jpg", youtubeID];
         [[[VideoImagesCache instance] imageURLs] setObject:thumbnail forKey:fileUrl];
         [[[VideoImagesCache instance] imageURLs] setObject:thumbnail forKey:[fileUrl stringByReplacingOccurrencesOfString:@"https://" withString:@"http://"]];
         
@@ -102,9 +102,10 @@
     [NSRegularExpression regularExpressionWithPattern:@"((?<=(v|V)/)|(?<=be/)|(?<=(\\?|\\&)v=)|(?<=embed/))([\\w-]++)"
                                               options:NSRegularExpressionCaseInsensitive
                                                 error:&error];
+    NSUInteger lengthOfString = [link length];
     NSTextCheckingResult *match = [regex firstMatchInString:link
                                                     options:0
-                                                      range:NSMakeRange(0, [link length])];
+                                                      range:NSMakeRange(0, lengthOfString)];
     if (match) {
         NSRange videoIDRange = [match rangeAtIndex:0];
         NSString *substringForFirstMatch = [link substringWithRange:videoIDRange];

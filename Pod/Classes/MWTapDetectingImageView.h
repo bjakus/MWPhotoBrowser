@@ -7,6 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <SDWebImage/SDWebImageDecoder.h>
+#import <SDWebImage/SDWebImageManager.h>
+#import <SDWebImage/SDWebImageOperation.h>
+
 
 @protocol MWTapDetectingImageViewDelegate;
 

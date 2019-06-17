@@ -41,7 +41,7 @@
 @interface MWPhotoBrowser : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, weak) IBOutlet id<MWPhotoBrowserDelegate> delegate;
-@property (nonatomic, weak) NSString* token;
+@property (nonatomic) NSString* token;
 @property (nonatomic) BOOL zoomPhotosToFill;
 @property (nonatomic) BOOL displayNavArrows;
 @property (nonatomic) BOOL displayActionButton;
@@ -66,6 +66,8 @@
 
 // Reloads the photo browser and refetches data
 - (void)reloadData;
+
+- (void) canRotate;
 
 // Set page that photo browser starts on
 - (void)setCurrentPhotoIndex:(NSUInteger)index;

@@ -56,6 +56,14 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     return self;
 }
 
+-(BOOL)shouldAutorotate {
+    return true;
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
+}
+
 - (id)initWithCoder:(NSCoder *)decoder {
     if ((self = [super initWithCoder:decoder])) {
         [self _initialisation];
@@ -572,10 +580,6 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     return YES;
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskAll;
-}
-
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     
     // Remember page index before rotation
@@ -729,7 +733,12 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 
 - (UIImage *)imageForPhoto:(id<MWPhoto>)photo {
     if (photo) {
-        // Get image or obtain in background
+//        // Get image or obtain in background
+//        if (photo.underlyingType != nil) {
+//            [photo loadUnderlyingImageAndNotify];
+//            return nil;
+//        }
+        
         if ([photo underlyingImage]) {
             return [photo underlyingImage];
         } else {
@@ -1226,8 +1235,12 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         if (url != nil) {
             VideoExtractor *extractor = [[VideoExtractor alloc] init];
             [extractor processVideoUrl:url.absoluteString fileType:photo.type closure:^(bool sucess) {
-                NSString *finalURL = [[[VideoImagesCache instance] videoURLs] valueForKey:url.absoluteString];
-                [weakSelf _playVideo:[[NSURL alloc] initWithString:finalURL] atPhotoIndex:index];
+                if (sucess) {
+                    NSString *finalURL = [[[VideoImagesCache instance] videoURLs] valueForKey:url.absoluteString];
+                    [weakSelf _playVideo:[[NSURL alloc] initWithString:finalURL] atPhotoIndex:index type:photo.type];
+                } else {
+                    [weakSelf setVideoErroratPageIndex:index];
+                }
             }];
         } else {
             [weakSelf setVideoLoadingIndicatorVisible:NO atPageIndex:index];
@@ -1257,12 +1270,12 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     }
 }
 
-- (void)_playVideo:(NSURL *)videoURL atPhotoIndex:(NSUInteger)index {
+- (void)_playVideo:(NSURL *)videoURL atPhotoIndex:(NSUInteger)index type:(NSString *)type {
     
     //[[VideoDecoder alloc] init];
     
     //    // Setup player
-    if (![videoURL.absoluteString containsString:@"chainintra"]) {
+    if (![type containsString:@"mp4"] && ![type containsString:@"3gp"]) {
         _currentVideoPlayerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:videoURL];
         
         [_currentVideoPlayerViewController.moviePlayer prepareToPlay];
@@ -1397,6 +1410,20 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         [self positionVideoLoadingIndicator];
         [[self pageDisplayedAtIndex:pageIndex] playButton].hidden = YES;
     }
+}
+
+- (void)setVideoErroratPageIndex:(NSUInteger)pageIndex {
+    
+    [_currentVideoLoadingIndicator removeFromSuperview];
+    _currentVideoLoadingIndicator = nil;
+    [[self pageDisplayedAtIndex:pageIndex] playButton].hidden = YES;
+    
+    MWPhoto *photo = [self photoAtIndex:pageIndex];
+    photo.underlyingImage = [UIImage imageNamed:@"broken_file"];
+    [photo imageLoadingComplete];
+    
+    
+    
 }
 
 - (void)positionVideoLoadingIndicator {

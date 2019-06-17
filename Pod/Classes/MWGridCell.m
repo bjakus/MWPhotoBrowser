@@ -67,7 +67,7 @@
         _loadingIndicator.userInteractionEnabled = NO;
         _loadingIndicator.thicknessRatio = 0.1;
         _loadingIndicator.roundedCorners = NO;
-		[self addSubview:_loadingIndicator];
+		//[self addSubview:_loadingIndicator];
         
         // Listen for photo loading notifications
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -187,7 +187,7 @@
 
 - (void)showLoadingIndicator {
     _loadingIndicator.progress = 0;
-    _loadingIndicator.hidden = NO;
+    _loadingIndicator.hidden = YES;
     [self hideImageFailure];
 }
 

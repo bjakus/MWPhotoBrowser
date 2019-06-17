@@ -13,6 +13,12 @@
 #import "MWPhoto.h"
 #import "MWPhotoBrowserPrivate.h"
 #import "UIImage+MWPhotoBrowser.h"
+#import "VideoExtractor.h"
+#import "VideoImagesCache.h"
+#import <SDWebImage/SDWebImageDecoder.h>
+#import <SDWebImage/SDWebImageManager.h>
+#import <SDWebImage/SDWebImageOperation.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
 // Private methods and properties
 @interface MWZoomingScrollView () {
@@ -119,6 +125,18 @@
     } else {
         // Will be loading so show loading
         [self showLoadingIndicator];
+        
+        NSString *urlString = _photo.underlyingVideoURL;
+        NSString *type = _photo.underlyingType;
+        VideoExtractor *extractor = [[VideoExtractor alloc] init];
+        if ([[[VideoImagesCache instance] imageURLs] valueForKey:urlString] != nil) {
+            [self displayImage];
+        } else {
+            [extractor processVideoUrl:urlString fileType:type closure:^(bool sucess) {
+                [self displayImage];
+            }];
+        }
+        
     }
 }
 
@@ -155,8 +173,16 @@
 			
 		} else  {
 
+            
+            NSString *urlString = _photo.underlyingVideoURL;
+        
+            NSString *finalURL = [[[VideoImagesCache instance] imageURLs] valueForKey:urlString];
+            [_photoImageView sd_setImageWithURL:[NSURL URLWithString:finalURL]];
+            
+            
+            [self hideLoadingIndicator];
             // Show image failure
-            [self displayImageFailure];
+            //[self displayImageFailure];
 			
 		}
 		[self setNeedsLayout];

@@ -28,6 +28,15 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DonePressed" object:self];
     [super viewWillDisappear:animated];
 }
+
+
+-(BOOL)shouldAutorotate {
+    return true;
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
+}
 /*
 #pragma mark - Navigation
 

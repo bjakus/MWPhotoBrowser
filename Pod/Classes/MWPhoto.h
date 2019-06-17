@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSString *caption;
 @property (nonatomic, strong) NSURL *videoURL;
 @property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSString *screenshot;
 @property (nonatomic) BOOL emptyImage;
 @property (nonatomic) BOOL isVideo;
 
@@ -32,7 +33,8 @@
 - (id)initWithURL:(NSURL *)url;
 - (id)initWithAsset:(PHAsset *)asset targetSize:(CGSize)targetSize;
 - (id)initWithVideoURL:(NSURL *)url;
-- (id)initWithVideoURL:(NSURL *)url typeOfVideo:(NSString *)type;
+- (id)initWithVideoURL:(NSURL *)url typeOfVideo:(NSString *)type screenshot:(NSString *)screen;
+- (void)imageLoadingComplete;
 
 @end
 

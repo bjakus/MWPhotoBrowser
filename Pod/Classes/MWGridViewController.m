@@ -54,6 +54,15 @@
     return self;
 }
 
+
+-(BOOL)shouldAutorotate {
+    return true;
+}
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
+}
+
 #pragma mark - View
 
 - (void)viewDidLoad {
