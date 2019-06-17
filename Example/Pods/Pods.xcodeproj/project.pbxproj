@@ -67,7 +67,7 @@
 		40D33FAA22B7F25100C656FC /* broken_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 40D33FA522B7F25100C656FC /* broken_file@2x.png */; };
 		40D33FAB22B7F25100C656FC /* broken_file@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 40D33FA622B7F25100C656FC /* broken_file@3x.png */; };
 		40D33FAC22B7F25100C656FC /* placeholder_video_empty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 40D33FA722B7F25100C656FC /* placeholder_video_empty@3x.png */; };
-		40D33FB222B7F2B600C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40D33FB122B7F2B600C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle */; };
+		40D33FB422B7F48000C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40D33FB322B7F48000C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle */; };
 		40F505E69B8595361C2A7528DDA222B6 /* EXPUnsupportedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B23D9E49B5B3A5C76EAFFC9C7F40B4B9 /* EXPUnsupportedObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4231743B6C143BDB4A5FBB032E6D3799 /* EXPUnsupportedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 865FAF448207E691D600F40C4ACF7C58 /* EXPUnsupportedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		430CE433DB59FE090A8CC6AFCFA43337 /* EXPMatchers+equal.h in Headers */ = {isa = PBXBuildFile; fileRef = D10BA2216A9B5F41557B4FC448EE865C /* EXPMatchers+equal.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -434,7 +434,7 @@
 		40D33FA522B7F25100C656FC /* broken_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broken_file@2x.png"; sourceTree = "<group>"; };
 		40D33FA622B7F25100C656FC /* broken_file@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broken_file@3x.png"; sourceTree = "<group>"; };
 		40D33FA722B7F25100C656FC /* placeholder_video_empty@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder_video_empty@3x.png"; sourceTree = "<group>"; };
-		40D33FB122B7F2B600C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MWPhotoBrowserWithYouTubeAndVimeo.bundle; sourceTree = "<group>"; };
+		40D33FB322B7F48000C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MWPhotoBrowserWithYouTubeAndVimeo.bundle; sourceTree = "<group>"; };
 		40D39B6435EEF47A85F4E3FB684E72FE /* DACircularProgressView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DACircularProgressView.m; path = DACircularProgress/DACircularProgressView.m; sourceTree = "<group>"; };
 		40DAD22BCDD38D058B1C9A312C42DF49 /* EXPMatchers+beNil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "EXPMatchers+beNil.m"; path = "Expecta/Matchers/EXPMatchers+beNil.m"; sourceTree = "<group>"; };
 		427921605A450AEF67D129DACCD87BED /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
@@ -833,6 +833,7 @@
 		362D9038C23D156F9F055EDF5565A5F1 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				40D33FB322B7F48000C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle */,
 				7D8198AD59277CB0379442369CF5247E /* MWCaptionView.h */,
 				730E6CDCF09A029F8976D82EB7DACCF2 /* MWCaptionView.m */,
 				69C3D12EC1F2F8AE628C05AC390D9D61 /* MWCommon.h */,
@@ -880,7 +881,6 @@
 		4F696B27FDAEF5BE2C52EFF1848239D6 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				40D33FB122B7F2B600C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle */,
 				40D33FA322B7F25000C656FC /* broken_file.png */,
 				40D33FA522B7F25100C656FC /* broken_file@2x.png */,
 				40D33FA622B7F25100C656FC /* broken_file@3x.png */,
@@ -1686,7 +1686,7 @@
 				AB0885F8524D9BE85FDEA8BF30520D43 /* UIBarButtonItemArrowRight.png in Resources */,
 				F88B870D7D0531FB54EAD23EB162DB70 /* UIBarButtonItemArrowRight@2x.png in Resources */,
 				40D33FAA22B7F25100C656FC /* broken_file@2x.png in Resources */,
-				40D33FB222B7F2B600C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle in Resources */,
+				40D33FB422B7F48000C656FC /* MWPhotoBrowserWithYouTubeAndVimeo.bundle in Resources */,
 				64734F2BA63DAFDA24F819EE71704665 /* UIBarButtonItemArrowRight@3x.png in Resources */,
 				40D33FA922B7F25100C656FC /* placeholder_video_empty@2x.png in Resources */,
 				40D33FAC22B7F25100C656FC /* placeholder_video_empty@3x.png in Resources */,
