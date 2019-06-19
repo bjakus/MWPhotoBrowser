@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name = 'MWPhotoBrowserWithYouTubeAndVimeo'
-  s.version = '2.2.0'
+  s.version = '2.2.1'
   s.license = 'MIT'
   s.summary = 'A simple iOS photo and video browser with optional grid view, captions and selections.'
   s.description = <<-DESCRIPTION
@@ -28,6 +28,7 @@ Pod::Spec.new do |s|
   }
   s.platform = :ios, '7.0'
   s.source_files = 'Pod/Classes/**/*'
+  s.resources = 'Pod/Assets/*.bundle'
   s.resource_bundles = {
     'MWPhotoBrowser' => ['Pod/Assets/*']
   }
