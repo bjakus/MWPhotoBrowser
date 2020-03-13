@@ -61,7 +61,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 }
 
 -(UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {

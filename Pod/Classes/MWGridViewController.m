@@ -60,7 +60,7 @@
 }
 
 -(UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 #pragma mark - View
