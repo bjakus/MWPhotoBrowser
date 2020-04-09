@@ -1272,73 +1272,36 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 
 - (void)_playVideo:(NSURL *)videoURL atPhotoIndex:(NSUInteger)index type:(NSString *)type {
     
-    //[[VideoDecoder alloc] init];
+    AVPlayer *player;
     
-    //    // Setup player
-    if (![type containsString:@"mp4"] && ![type containsString:@"3gp"]) {
+    if ([type containsString:@"mp4"] || [type containsString:@"3gp"]) {
+        NSMutableDictionary * headers = [NSMutableDictionary dictionary];
+        [headers setObject:_token forKey:@"Authorization"];
+        [headers setObject:@"no-cache" forKey:@"Cache-Control"];
+        [headers setObject:@"application/json" forKey:@"Content-Type"];
         
-        // create a player view controller
-        AVPlayer *player = [AVPlayer playerWithURL:videoURL];
-        
-        // create a player view controller
-        dispatch_async(dispatch_get_main_queue(), ^{
-            CustomAVPlayerViewController *controller = [[CustomAVPlayerViewController alloc] init];
-            controller.player = player;
-            [self presentViewController:controller animated:true completion:^{
-                [player play];
-            }];
-        });
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(videoFinishedCallback:)
-                                                     name:AVPlayerItemDidPlayToEndTimeNotification
-                                                   object:player.currentItem];
+        AVURLAsset *audioAsset = [AVURLAsset URLAssetWithURL:videoURL options:@{@"AVURLAssetHTTPHeaderFieldsKey" : headers}];
+        AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:audioAsset];
+        player = [AVPlayer playerWithPlayerItem:playerItem];
         
     } else {
-        
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setHTTPMethod:@"GET"];
-        [request setURL:videoURL];
-        [request addValue:_token forHTTPHeaderField:@"Authorization"];
-        
-        [request addValue:@"no-cache" forHTTPHeaderField:@"Cache-Control"];
-        [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        
-        
-        [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
-          ^(NSData * _Nullable data,
-            NSURLResponse * _Nullable response,
-            NSError * _Nullable error) {
-              
-              
-              NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-              NSString *documentsDirectory = [paths objectAtIndex:0];
-              NSString *path = [documentsDirectory stringByAppendingPathComponent:@"myMove.mp4"];
-              
-              [data writeToFile:path atomically:YES];
-              NSURL *moveUrl = [NSURL fileURLWithPath:path];
-              
-              
-              // create a player view controller
-              AVPlayer *player = [AVPlayer playerWithURL:moveUrl];
-              
-              // create a player view controller
-              dispatch_async(dispatch_get_main_queue(), ^{
-                  CustomAVPlayerViewController *controller = [[CustomAVPlayerViewController alloc] init];
-                  controller.player = player;
-                  [self presentViewController:controller animated:true completion:^{
-                      [player play];
-                  }];
-              });
-              
-              [[NSNotificationCenter defaultCenter] addObserver:self
-                                                       selector:@selector(videoFinishedCallback:)
-                                                           name:AVPlayerItemDidPlayToEndTimeNotification
-                                                         object:player.currentItem];
-              
-          }] resume];
-        
+        player = [AVPlayer playerWithURL:videoURL];
     }
+    
+    // create a player view controller
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CustomAVPlayerViewController *controller = [[CustomAVPlayerViewController alloc] init];
+        controller.player = player;
+        [self presentViewController:controller animated:true completion:^{
+            [player play];
+        }];
+    });
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(videoFinishedCallback:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:player.currentItem];
+    
 }
 
 - (void)videoFinishedCallback:(NSNotification*)notification {
