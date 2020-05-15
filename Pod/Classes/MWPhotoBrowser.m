@@ -23,6 +23,14 @@
 
 static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 
+@interface MWPhotoBrowser () {
+    
+    AVPlayer *player;
+    
+}
+
+@end
+
 @implementation MWPhotoBrowser
 
 #pragma mark - Init
@@ -1272,8 +1280,6 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 
 - (void)_playVideo:(NSURL *)videoURL atPhotoIndex:(NSUInteger)index type:(NSString *)type {
     
-    AVPlayer *player;
-    
     if ([type containsString:@"mp4"] || [type containsString:@"3gp"]) {
         NSMutableDictionary * headers = [NSMutableDictionary dictionary];
         [headers setObject:_token forKey:@"Authorization"];
@@ -1302,6 +1308,26 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:player.currentItem];
     
+        player.automaticallyWaitsToMinimizeStalling = false;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(videoStalled)
+                                                 name:AVPlayerItemPlaybackStalledNotification
+                                               object:nil];
+    
+}
+
+-(void)videoStalled {
+    if (player.currentItem.playbackLikelyToKeepUp == NO &&
+        CMTIME_COMPARE_INLINE(player.currentTime, >, kCMTimeZero) &&
+        CMTIME_COMPARE_INLINE(player.currentTime, !=, player.currentItem.duration)) {
+        NSLog(@"hanged");
+        [self performSelector:@selector(startVideo) withObject:nil afterDelay:2.0];
+    }
+}
+
+-(void)startVideo{
+    [player play];
 }
 
 - (void)videoFinishedCallback:(NSNotification*)notification {
